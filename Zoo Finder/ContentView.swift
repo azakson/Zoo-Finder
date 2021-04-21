@@ -2,7 +2,7 @@
 //  ContentView.swift
 //  Zoo Finder
 //
-//  Created by Avery Zakson on 4/15/21.
+//  Created by Avery Zakson and Matt Imdad on 4/15/21.
 //
 
 import SwiftUI
