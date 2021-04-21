@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3F0362DC26307DF10030E60A /* LocationManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3F0362DB26307DF10030E60A /* LocationManager.swift */; };
 		58A7F4A3262897140094129B /* Zoo_FinderApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A7F4A2262897140094129B /* Zoo_FinderApp.swift */; };
 		58A7F4A5262897140094129B /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 58A7F4A4262897140094129B /* ContentView.swift */; };
 		58A7F4A7262897170094129B /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 58A7F4A6262897170094129B /* Assets.xcassets */; };
@@ -33,6 +34,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3F0362DB26307DF10030E60A /* LocationManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationManager.swift; sourceTree = "<group>"; };
 		58A7F49F262897140094129B /* Zoo Finder.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Zoo Finder.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		58A7F4A2262897140094129B /* Zoo_FinderApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Zoo_FinderApp.swift; sourceTree = "<group>"; };
 		58A7F4A4262897140094129B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
@@ -97,6 +99,7 @@
 			children = (
 				58A7F4A2262897140094129B /* Zoo_FinderApp.swift */,
 				58A7F4A4262897140094129B /* ContentView.swift */,
+				3F0362DB26307DF10030E60A /* LocationManager.swift */,
 				58A7F4A6262897170094129B /* Assets.xcassets */,
 				58A7F4AB262897170094129B /* Info.plist */,
 				58A7F4A8262897170094129B /* Preview Content */,
@@ -261,6 +264,7 @@
 			files = (
 				58A7F4A5262897140094129B /* ContentView.swift in Sources */,
 				58A7F4A3262897140094129B /* Zoo_FinderApp.swift in Sources */,
+				3F0362DC26307DF10030E60A /* LocationManager.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
