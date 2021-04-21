@@ -38,4 +38,21 @@ struct ContentView_Previews: PreviewProvider {
     }
 }
 
+struct Marker: View {
+    var mapItem: MKMapItem
+
+    var body: some View {
+
+        if let url = mapItem.url {
+
+            Link(destination: url, label: {
+
+                Image("monke")
+
+            })
+        }
+    }
+}
+
+
 
