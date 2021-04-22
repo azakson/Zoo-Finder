@@ -10,17 +10,19 @@ import MapKit
 
 struct ContentView: View {
     @StateObject var locationManager = LocationManager()
+
+    @State private var userTrackingMode: MapUserTrackingMode = .follow
     
     @State private var region = MKCoordinateRegion(
         center: CLLocationCoordinate2D(
             latitude: 41.8781, longitude: -87.6298),
         span: MKCoordinateSpan(
             latitudeDelta: 0.05, longitudeDelta: 0.05))
-    @State private var userTrackingMode: MapUserTrackingMode = .follow
     
     var body: some View {
         Map(
             coordinateRegion: $region,
+            interactionModes: .all,
             showsUserLocation: true,
             userTrackingMode: $userTrackingMode
         )
