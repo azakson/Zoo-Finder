@@ -70,6 +70,8 @@ struct Marker: View {
         if let url = mapItem.url {
             Link(destination: url, label: {
                 Image("monke")
+                    .resizable()
+                    .frame(width: 40, height: 40)
             })
         }
     }
