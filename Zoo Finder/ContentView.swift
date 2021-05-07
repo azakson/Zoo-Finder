@@ -19,6 +19,8 @@ struct ContentView: View {
             latitudeDelta: 0.05, longitudeDelta: 0.05))
     
     var body: some View {
+        VStack {
+        
         Map(
             coordinateRegion: $region,
             interactionModes: .all,
@@ -32,6 +34,14 @@ struct ContentView: View {
         .onAppear(perform: {
             performSearch(item: "Zoo")
         })
+            
+            Button(action: {
+                
+            }, label: {
+                Text("Get Directions")
+            })
+            .padding()
+        }
     }
     
     func performSearch(item: String) {
@@ -71,11 +81,10 @@ struct Marker: View {
             Link(destination: url, label: {
                 Image("monke")
                     .resizable()
-                    .frame(width: 40, height: 40)
+                    .frame(width: 50, height: 50)
             })
         }
     }
 }
-
 
 
