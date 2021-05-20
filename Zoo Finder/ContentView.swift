@@ -10,10 +10,10 @@ import MapKit
 import CoreLocation
 
 extension ContentView {
-        struct PickerValues {
-                let mapType: MKMapType
-            let description: String
-        }
+    struct PickerValues {
+        let mapType: MKMapType
+        let description: String
+    }
 }
 
 struct ContentView: View {
@@ -28,22 +28,19 @@ struct ContentView: View {
             latitudeDelta: 0.05, longitudeDelta: 0.05))
     @State private var action: MapView.Action = .idle
     @State private var mapPickerSelection: Int = 0
-    let pickerValues: [PickerValues] = [// [.standard, .hybrid, .satellite]
-            PickerValues(mapType: .standard, description: "Standard"),
-            PickerValues(mapType: .hybrid, description: "Hybrid"),
-            PickerValues(mapType: .satellite, description: "Satellite"), ]
+    let pickerValues: [PickerValues] = [
+        PickerValues(mapType: .standard, description: "Standard"),
+        PickerValues(mapType: .hybrid, description: "Hybrid"),
+        PickerValues(mapType: .satellite, description: "Satellite"), ]
     
     var body: some View {
         let binding = Binding<Int>(
-                get: { self.mapPickerSelection},
-                set: { newValue in
-                        self.action = .changeType(mapType: self.pickerValues[newValue].mapType)
-                        self.mapPickerSelection = newValue
-                }
-        )
+            get: { self.mapPickerSelection},
+            set: { newValue in
+                self.action = .changeType(mapType: self.pickerValues[newValue].mapType)
+                self.mapPickerSelection = newValue })
         
         VStack {
-            
             Map(
                 coordinateRegion: $regionViewed,
                 interactionModes: .all,
@@ -58,11 +55,12 @@ struct ContentView: View {
                 performSearch(item: "Zoo")
             })
         }
+        
         MapView(centerCoordinate: self.$region, action: self.$action)
         Picker(selection: binding, label: Text("Map type")) {
-                ForEach(self.pickerValues.indices) { index in
-                        Text(self.pickerValues[index].description).tag(index)
-                }
+            ForEach(self.pickerValues.indices) { index in
+                Text(self.pickerValues[index].description).tag(index)
+            }
         }.pickerStyle(SegmentedPickerStyle())
     }
     
@@ -110,47 +108,57 @@ struct Marker: View {
 }
 
 struct MapView: UIViewRepresentable {
-        enum Action {
-                case idle
-                case reset(coordinate: CLLocationCoordinate2D)
-                case changeType(mapType: MKMapType)
+    enum Action {
+        case idle
+        case reset(coordinate: CLLocationCoordinate2D)
+        case changeType(mapType: MKMapType)
+    }
+    
+    @Binding var centerCoordinate: CLLocationCoordinate2D
+    @Binding var action: Action
+    
+    func makeUIView(context: Context) -> MKMapView {
+        let mapView = MKMapView()
+        mapView.delegate = context.coordinator
+        mapView.centerCoordinate = self.centerCoordinate
+        return mapView
+    }
+    
+    func updateUIView(_ uiView: MKMapView, context: Context) {
+        switch action {
+        case .idle:
+            break
+        case .reset(let newCoordinate):
+            uiView.delegate = nil
+            uiView.centerCoordinate = newCoordinate
+            DispatchQueue.main.async {
+                self.centerCoordinate = newCoordinate
+                self.action = .idle
+                uiView.delegate = context.coordinator
+            }
+        case .changeType(let mapType):
+            uiView.mapType = mapType
         }
-        @Binding var centerCoordinate: CLLocationCoordinate2D
-        @Binding var action: Action
-        func makeUIView(context: Context) -> MKMapView {
-                let mapView = MKMapView()
-                mapView.delegate = context.coordinator
-                mapView.centerCoordinate = self.centerCoordinate
-                return mapView
+    }
+    
+    func makeCoordinator() -> Coordinator {
+        Coordinator(self)
+    }
+    
+    class Coordinator: NSObject, MKMapViewDelegate {
+        var parent: MapView
+        func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
+            parent.centerCoordinate = mapView.centerCoordinate
         }
-        func updateUIView(_ uiView: MKMapView, context: Context) {
-                switch action {
-                case .idle:
-                        break
-                case .reset(let newCoordinate):
-                        uiView.delegate = nil
-                        uiView.centerCoordinate = newCoordinate
-                        DispatchQueue.main.async {
-                                self.centerCoordinate = newCoordinate
-                                self.action = .idle
-                                uiView.delegate = context.coordinator
-                        }
-                case .changeType(let mapType):
-                        uiView.mapType = mapType
-                }
+        init(_ parent: MapView) {
+            self.parent = parent
         }
-        func makeCoordinator() -> Coordinator {
-                Coordinator(self)
-        }
-        class Coordinator: NSObject, MKMapViewDelegate {
-                var parent: MapView
-                func mapViewDidChangeVisibleRegion(_ mapView: MKMapView) {
-                        parent.centerCoordinate = mapView.centerCoordinate
-                }
-                init(_ parent: MapView) {
-                        self.parent = parent
-                }
-        }
+    }
+}
+
+struct PickerValues {
+    let mapType: MKMapType
+    let description: String
 }
 
 
